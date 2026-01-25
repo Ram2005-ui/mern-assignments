@@ -30,4 +30,5 @@ else{
     return user
 
 } });
+
 console.log(deactivatedUser);
