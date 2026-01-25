@@ -64,3 +64,4 @@ let paid=ncourses.every((course)=>{
     }
 })
 console.log(paid);
+
