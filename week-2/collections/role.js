@@ -23,3 +23,4 @@ let newRole={
     moderator:["update","delete"]
 }
 console.log(newRole)
+
