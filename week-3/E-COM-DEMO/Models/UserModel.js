@@ -2,7 +2,7 @@ import {Schema,model} from 'mongoose'
 
 //create cart schema
 const cartSchema = new Schema({  //embedded schema demonstrating relationship between user and product
-  product:{
+  product:{ //product only stores ObjectId referencing product document not entire product details
     type:Schema.Types.ObjectId,
     ref:"product" //name of product model
   } //reference(object id) pointing to product document in product collection
