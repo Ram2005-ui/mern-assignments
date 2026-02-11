@@ -15,7 +15,7 @@ userRoute.get('/users', async (req, res) => {
 userRoute.post('/users', async (req, res, next) => {
   
     let  newUser= req.body;
-    await new UserModel(newUser).validate();
+    await new UserModel(newUser).validate(); // to check if user data is valid or not
     //hash the password
     let hashedPassword = await hash(newUser.password,12);
     //replace plain password with hashed password
