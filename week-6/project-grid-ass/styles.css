@@ -1,0 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.parent {
+    width: 850px;
+    height: 750px;
+    margin: 60px auto;
+    border: 1px solid #ddd;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+/* ── CHILD 1: iphone — cols 1-2, row 1 ── */
+.child1 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #eee;
+}
+
+.child h6 {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 6px;
+}
+
+.child h5 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.child p {
+    font-size: 11px;
+    color: #888;
+}
+
+.child1 img {
+    width: 90px;
+    height: 160px;
+    object-fit: contain;
+}
+
+/* ── CHILD 2: big heading — cols 3-4, rows 1-2 ── */
+.child2 {
+    grid-column: 3 / 5;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 190px;
+    background-color: #f4f4f4;
+    padding: 40px;
+    gap: 16px;
+    border: 1px solid #eee;
+}
+
+.child2 small {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #aaa;
+}
+
+.child2 h2 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #222;
+    line-height: 1.3;
+}
+
+.child2 a {
+    color: #e8a020;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+/* ── CHILD 3: red keyboard — col 1, row 2 ── */
+.child3 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e04030;
+    padding: 20px;
+    gap: 10px;
+    border: 1px solid #c73020;
+}
+
+.img2 {
+    width: 130px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.child3 h3 {
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    font-style: italic;
+}
+
+.child3 a {
+    color: #e8c040;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+/* ── CHILD 4: retro mac — cols 2-3, row 2 ── */
+.child4 {
+    grid-column: 2 / 4;
+    grid-row: 2 / 3;
+    display: flex;
+    gap: 16px;
+    padding: 24px;
+    background-color: #ffffff;
+    border: 1px solid #eee;
+}
+
+.part {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 130px;
+}
+
+.part h6 {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #aaa;
+}
+
+.part h4 {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.monitor {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+}
+
+.part2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+}
+
+.part2 p {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.6;
+}
+
+.part2 a {
+    color: #4ab0c0;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+/* ── CHILD 5: purple icloud — col 4, rows 2-3 ── */
+.child5 {
+    grid-column: 4 / 5;
+    grid-row: 2 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #8b5cc8;
+    padding: 20px;
+    gap: 10px;
+    text-align: center;
+    border: 1px solid #7040b0;
+}
+
+.child5 small {
+    color: #e8d0ff;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.icloud {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.meet {
+    color: #d0b0f0;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.child5 h3 {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.child5 p {
+    color: #e0ccf8;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.child5 button {
+    background-color: #e8a020;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+/* ── CHILD 6: game controller — col 1, row 3 ── */
+.child6 {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f8f8;
+    padding: 20px;
+    gap: 10px;
+    border: 1px solid #eee;
+}
+
+.child6 img {
+    width: 100px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.child6 h4 {
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+}
+
+.child6 a {
+    color: #4ab0c0;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ── CHILD 7: teal macbook — cols 2-3, row 3 ── */
+.child7 {
+    grid-column: 2 / 4;
+    grid-row: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #6aacaa;
+    padding: 20px;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.badge {
+    background-color: #e04030;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    padding: 3px 8px;
+    letter-spacing: 1px;
+    align-self: flex-start;
+}
+
+.child7 h3 {
+    color: white;
+    font-size: 18px;
+    font-style: italic;
+    text-align: center;
+}
+
+.macbook {
+    width: 180px;
+    height: 120px;
+    object-fit: contain;
+}
+
+/* ── RESPONSIVE ── */
+@media screen and (max-width: 700px) {
+    .parent {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+        width: 100%;
+    }
+
+    .parent > div {
+        grid-column: auto;
+        grid-row: auto;
+    }
+}
