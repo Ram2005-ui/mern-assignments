@@ -1,5 +1,15 @@
 {
-  "buildCommand": "npm ci",
-  "devCommand": "node server.js",
-  "installCommand": "npm ci"
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/server.js"
+    }
+  ]
 }
