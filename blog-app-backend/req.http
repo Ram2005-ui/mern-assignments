@@ -1,0 +1,138 @@
+
+###
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+    "firstName":"virat",
+    "lastName":"bhau",
+    "email":"mahiii@gmail.com",
+    "password":"virat@123",
+    "profileImageUrl":"https://example.com/avatars/user.png"
+
+}
+
+###
+POST http://localhost:4000/author-api/users
+Content-Type: application/json
+
+{
+    "firstName":"sohail",
+    "lastName":"bhau",
+    "email":"mahi77@gmail.com",
+    "password":"Ram@123",
+    "profileImageUrl":"https://example.com/avatars/author.png"
+
+}
+
+###
+GET http://localhost:4000/user-api/articles
+
+###
+POST http://localhost:4000/user-api/articles/comments
+Content-Type: application/json
+
+{
+    "articleId":"69ae29089be5263746c38d61",
+    "comment":"marvellous"
+                                           
+
+}
+
+
+###
+POST http://localhost:4000/common-api/authenticate
+Content-Type: application/json
+
+{
+    "email":"sohailta222@gmail.com",
+    "password":"Raa@123",
+    "isActive":"true"
+
+
+}
+
+###
+GET http://localhost:4000/common-api/check-auth
+
+###
+POST http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "author":"69ae28319be5263746c38d5c",
+    "title":"Content",
+    "category":"entertainment",
+    "content":"This is the content related to gaming industry"
+}
+
+
+###
+GET http://localhost:4000/author-api/articles/69ae28319be5263746c38d5c
+
+
+###
+PUT http://localhost:4000/user-api/articles
+Content-Type: application/json
+
+{
+    "user":,
+    "articleId":,
+    "comment":
+
+
+}
+
+
+###
+PUT http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "author":"69ae28319be5263746c38d5c",
+    "articleId":"69ae29089be5263746c38d61",
+    "title":"t20 article",
+    "category":"programming",
+    "content":"This is the content related to t20"
+}
+
+###
+PUT http://localhost:4000/author-api/articles/delete
+Content-Type: application/json
+
+{
+    "author":"698b00de8e06b6efe5dbdb58",
+    "articleId":"698b02638e06b6efe5dbdb5c",
+    "title":"test7 article",
+    "category":"programming",
+    "content":"This is the content related to pro"
+}
+
+###
+GET http://localhost:4000/common-api/logout
+
+
+###
+GET http://localhost:4000/hello
+
+//block
+###
+PUT http://localhost:4000/admin-api/block/698b00de8e06b6efe5dbdb58
+
+
+//unblock
+###
+PUT http://localhost:4000/admin-api/unblock/698b00de8e06b6efe5dbdb58
+
+
+//change password
+###
+PUT http://localhost:4000/common-api/change-password
+Content-Type: application/json
+
+{
+    "email":"sohail@gmail.com",
+    "password":"Raa@123",
+    "newPassword":"1234789"
+}
+
