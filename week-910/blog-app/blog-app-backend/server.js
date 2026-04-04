@@ -65,7 +65,6 @@ if (process.env.NODE_ENV !== 'production') {
     app.listen(process.env.PORT, () => console.log("server started on port", process.env.PORT));
 }
 
-})
 //error handling middleware
 // app.use((err, req, res, next) => {
 //     console.log(err)
