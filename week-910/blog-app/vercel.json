@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "blog-app-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "blog-app-frontend/dist"
+      }
+    },
+    {
+      "src": "blog-app-backend/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/blog-app-backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/blog-app-frontend/$1"
+    }
+  ]
+}

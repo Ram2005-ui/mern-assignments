@@ -25,16 +25,23 @@ const connectDB = async () => { //for multemedia storage like cloudinary and mon
     try {
         await connect(process.env.DB_URL) //replace db address with your db address
         console.log("db connected")
-        app.listen(process.env.PORT, () => console.log("server started"))
     } catch (err) {
         console.log("Err in db connection", err)
     }
 }
-connectDB()
-    .catch(err => {
-        console.error("Failed to connect to DB:", err);
-        process.exit(1);
-    });
+
+// Connect to DB on startup for serverless
+connectDB().catch(err => {
+    console.error("Failed to connect to DB:", err);
+});
+
+// For Vercel serverless, export the app
+export default app;
+
+// For local development, listen if not in Vercel
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(process.env.PORT, () => console.log("server started on port", process.env.PORT));
+}
 //logout for user,author and admin
 app.post("/logout", (req, res) => { //match with the setting at the time of creation
     res.clearCookie("token", {
