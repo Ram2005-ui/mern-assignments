@@ -35,7 +35,7 @@ app.use(async (req, res, next) => {
     console.error("Path:", req.path, "Error:", err.message);
     res.status(503).json({ 
       message: "Database connection failed", 
-      error: process.env.NODE_ENV === 'production' ? null : err.message 
+      error: err.message 
     });
   }
 });
