@@ -13,6 +13,12 @@ app.use(cors({
     ? process.env.FRONTEND_URL || "http://localhost:5173"
     : "http://localhost:5173"
 }))
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ message: 'Backend is running', database: 'Connected' });
+});
+
 //forward req to UserApi if path starts with /user-api
 app.use("/user-api", UserApp);
 //connect to Db
