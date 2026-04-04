@@ -1,0 +1,114 @@
+// User API Requests
+// schema : {username, password, age}
+
+###
+GET http://localhost:4000/user-api/users
+
+###
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+  "username": "kartik",
+  "password": "kartik",
+  "age": 20
+}
+
+###
+GET http://localhost:4000/user-api/users/698891088ffcbe8d373d391d
+
+###
+
+# user Autentication(Login)
+###
+POST http://localhost:4000/user-api/auth
+Content-Type: application/json
+
+{
+  "username":"hari",
+  "password":"hari"
+}
+
+###
+#req for protected route
+GET http://localhost:4000/user-api/test
+
+###
+PUT http://localhost:4000/user-api/users/698891568ffcbe8d373d391f
+Content-Type: application/json
+
+{
+  "username":"bhanu",
+  "password":"bhanu",
+  "age":22
+}
+
+
+###
+DELETE http://localhost:4000/user-api/users/698892cb8ffcbe8d373d3925
+
+
+# ###
+
+# // Product API Requests
+# // schema : {pid, productname, Price}
+
+# ###
+# GET http://localhost:4000/product-api/products
+
+# ###
+# POST http://localhost:4000/product-api/products
+# Content-Type: application/json
+
+# {
+#   "pid":1001,
+#   "productname":"Laptop",
+#   "Price":"50000"
+# }
+
+# ###
+# GET http://localhost:4000/product-api/products/697f8abde0e291640ff73374
+
+# ###
+# PUT http://localhost:4000/product-api/products/697f8abde0e291640ff73374
+# Content-Type: application/json
+
+# {
+#   "pid":1001,
+#   "productname":"Gaming Laptop",
+#   "Price":"75000"
+# }
+
+
+###
+GET http://localhost:4000/product-api/products
+
+###
+POST http://localhost:4000/product-api/products
+Content-Type: application/json
+
+{
+  "pid": 103,
+  "productname": "Smartphone",
+  "Price": 50000
+}
+
+
+###
+GET http://localhost:4000/product-api/products/6988950c8ffcbe8d373d392b
+
+
+###
+PUT http://localhost:4000/product-api/products/6988950c8ffcbe8d373d392b
+Content-Type: application/json
+
+{
+  "pid": 102,
+  "productname": "Gaming Laptop",
+  "Price": 75000
+}
+
+###
+DELETE http://localhost:4000/product-api/products/6988950c8ffcbe8d373d392b
+
+

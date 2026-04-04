@@ -1,0 +1,125 @@
+###
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+    "firstName":"srk",
+    "lastName":"bhau",
+    "email":"akki@gmail.com",
+    "password":"akki@123",
+    "profileImageUrl":"https://example.com/avatars/user.png"
+
+}
+
+###
+POST http://localhost:4000/author-api/users
+Content-Type: application/json
+
+{
+    "firstName":"sohail",
+    "lastName":"bhau",
+    "email":"sohailt@gmail.com",
+    "password":"Raa@123",
+    "profileImageUrl":"https://example.com/avatars/author.png"
+
+}
+
+###
+GET http://localhost:4000/user-api/articles
+
+###
+POST http://localhost:4000/user-api/articles/comments
+Content-Type: application/json
+
+{
+    "articleId":"698b02638e06b6efe5dbdb5c",
+    "comment":"stupendous"
+                                           //never trust user id from req.body
+
+}
+
+
+###
+POST http://localhost:4000/common-api/authenticate
+Content-Type: application/json
+
+{
+    "email":"sohailt@gmail.com",
+    "password":"Raa@123",
+    "isActive":"true"
+
+
+}
+
+
+
+###
+POST http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "author":"698b06018e06b6efe5dbdb84",
+    "title":"sample2 article",
+    "category":"programming",
+    "content":"This is the content related to sample"
+}
+
+//cookie(token) is attached with the request
+//if author is logged in then get request is authenticated
+//httponly cookie - safety and automatic attachment
+###
+GET http://localhost:4000/author-api/articles/698979d7b5695b1107f3f482
+
+
+###
+PUT http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "author":"698979d7b5695b1107f3f482",
+    "articleId":"69897c56b5695b1107f3f487",
+    "title":"test10 article",
+    "category":"programming",
+    "content":"This is the content related"
+}
+
+###
+PUT http://localhost:4000/author-api/articles/delete
+Content-Type: application/json
+
+{
+    "author":"698b00de8e06b6efe5dbdb58",
+    "articleId":"698b02638e06b6efe5dbdb5c",
+    "title":"test7 article",
+    "category":"programming",
+    "content":"This is the content related to pro"
+}
+
+###
+GET http://localhost:4000/common-api/logout
+
+
+###
+GET http://localhost:4000/hello
+
+//block
+###
+PUT http://localhost:4000/admin-api/block/698b00de8e06b6efe5dbdb58
+
+
+//unblock
+###
+PUT http://localhost:4000/admin-api/unblock/698b00de8e06b6efe5dbdb58
+
+
+//change password
+###
+PUT http://localhost:4000/common-api/change-password
+Content-Type: application/json
+
+{
+    "email":"sohail@gmail.com",
+    "password":"Raa@123",
+    "newPassword":"1234789"
+}
+

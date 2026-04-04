@@ -1,0 +1,36 @@
+###Create User
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+    "name":"ravi",
+    "email":"ravi@gmail.com",
+    "dateOfBirth":"2005-01-14",
+    "mobileNumber":999999999
+
+}
+###Read all Users
+GET http://localhost:4000/user-api/users
+
+###
+GET http://localhost:4000/user-api/users/
+
+###
+PUT http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+    "name":"rahul",
+    "email":"ravi@gmail.com",
+    "dateOfBirth":"2005-01-14",
+    "mobileNumber":999999999
+
+
+}
+
+
+###
+DELETE http://localhost:4000/user-api/users/
+
+###
+PATCH  http://localhost:4000/user-api/users/

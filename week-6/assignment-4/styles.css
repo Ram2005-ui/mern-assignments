@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* HEADER */
+header {
+    background: url('https://media.istockphoto.com/id/513247652/photo/panoramic-beautiful-view-of-mount-ama-dablam.jpg?s=612x612&w=0&k=20&c=5MWcvFfiJzmxMZ6olmyd14Q-OskUmbg33KS8LwFnb_0=') center/cover;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+header h1 {
+    color: white;
+    font-size: 32px;
+    max-width: 500px;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+header button,
+.controls button {
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* MAIN */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 30px;
+}
+
+section {
+    margin-bottom: 60px;
+}
+
+h2 {
+    color: #1a4d8f;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* ACTIVITY SECTION */
+.activity {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.activity > div:first-child {
+    flex: 1;
+}
+
+.activity p {
+    line-height: 1.8;
+    color: #666;
+    font-size: 13px;
+}
+
+.activity img {
+    width: 350px;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ARROW CONTROLS */
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 14px;
+}
+
+.controls button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    background: white;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* TOURISM SECTION */
+.tourism h2 {
+    margin-bottom: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+}
+
+article {
+    background: #f0f4fa;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+article img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+article h3 {
+    color: #ff9800;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f9f9f9;
+}
+
+footer h2 {
+    margin-bottom: 24px;
+}
+
+footer nav {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+footer a {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+    padding-bottom: 6px;
+}
+
+footer a.active {
+    border-bottom: 3px solid #ff9800;
+    color: #333;
+}

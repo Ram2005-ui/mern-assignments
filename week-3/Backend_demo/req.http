@@ -1,0 +1,59 @@
+GET http://127.0.0.1:3000/user-api/users
+
+###
+POST http://127.0.0.1:3000/user-api/users
+Content-Type: application/json
+
+{
+  "id": 3,  
+  "name": "Hitesh",
+  "age": 30
+}
+
+###
+PUT http://127.0.0.1:3000/user-api/users/3
+Content-Type: application/json
+
+{  
+  "name": "Krishna",
+  "age": 31
+}
+
+###
+GET http://127.0.0.1:3000/user-api/users/3
+
+###
+DELETE http://127.0.0.1:3000/user-api/users/3
+
+###
+GET http://127.0.0.1:3000/product-api/products
+
+###
+GET http://127.0.0.1:3000/product-api/products/id/5
+
+###
+GET http://127.0.0.1:3000/product-api/products/brand/Dell
+
+###
+POST http://127.0.0.1:3000/product-api/products
+Content-Type: application/json
+
+{
+  "productId": 5,  
+  "name": "Smart Laptop",
+  "price": 55000,
+  "brand": "Dell"
+}
+
+###
+PUT http://127.0.0.1:3000/product-api/products/5
+Content-Type: application/json
+
+{
+    "productId": 4,  
+    "price": 52000,
+    "brand": "Samsung"
+}
+
+###
+DELETE http://127.0.0.1:3000/product-api/products/4
