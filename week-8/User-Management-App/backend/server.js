@@ -8,52 +8,54 @@ config();
 
 const app = express();
 
-// --- Cached DB connection for Vercel serverless ---
-let isConnected = false;
-
+// --- Database connection for Vercel serverless ---
 async function connectDB() {
-  if (isConnected) return; // reuse existing connection on warm invocations
+  // If already connected (readyState 1) or connecting (readyState 2), don't start new connection
+  if (mongoose.connection.readyState >= 1) return;
+  
   try {
     await mongoose.connect(process.env.DB_URL, {
-      serverSelectionTimeoutMS: 10000, // fail fast if Atlas unreachable
+      serverSelectionTimeoutMS: 15000,
       socketTimeoutMS: 45000,
+      bufferCommands: false, // Don't buffer queries; fail immediately if disconnected
     });
-    isConnected = true;
-    console.log("Connected to MongoDB Atlas");
-  } catch (error) {
-    console.error("MongoDB connection error:", error.message);
-    throw error;
+    console.log("Success: Connected to MongoDB Atlas");
+  } catch (err) {
+    console.error("Critical: MongoDB connection failed:", err.message);
+    throw err;
   }
 }
 
-// Connect eagerly on cold start
-connectDB().catch(console.error);
-
-// Middleware: ensure DB is connected before every request
+// Ensure DB is connected before every request
 app.use(async (req, res, next) => {
   try {
     await connectDB();
     next();
-  } catch {
-    res.status(503).json({ message: "Database unavailable, try again shortly" });
+  } catch (err) {
+    console.error("Path:", req.path, "Error:", err.message);
+    res.status(503).json({ 
+      message: "Database connection failed", 
+      error: process.env.NODE_ENV === 'production' ? null : err.message 
+    });
   }
 });
 
 app.use(express.json());
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? process.env.FRONTEND_URL || "http://localhost:5173"
-        : "http://localhost:5173",
+    origin: process.env.NODE_ENV === "production"
+      ? (process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : true)
+      : true,
+    credentials: true
   })
 );
 
-// Health check — now actually reflects DB state
+// Health check
 app.get("/", (req, res) => {
+  const statusLabels = ["Disconnected", "Connected", "Connecting", "Disconnecting"];
   res.json({
     message: "Backend is running",
-    database: isConnected ? "Connected" : "Disconnected",
+    database: statusLabels[mongoose.connection.readyState] || "Unknown"
   });
 });
 

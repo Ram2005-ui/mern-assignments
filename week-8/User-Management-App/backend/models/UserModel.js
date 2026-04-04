@@ -2,35 +2,32 @@
 import { Schema,model } from "mongoose";
 //create User model for user schema
 const UserSchema = new Schema({
-    name:{
+    name: {
         type: String,
-        required: [true,"Name is required"],
+        required: [true, "Name is required"],
     },
-    email:{
+    email: {
         type: String,
-        required: [true,"Email is required"],
-        unique: [true,"Email already exists"],
+        required: [true, "Email is required"],
+        unique: [true, "Email already exists"],
     },
-    dateOfBirth:{
-        type:Date,
-        required:[true,"Date of birth is required"],
-
+    dateOfBirth: {
+        type: Date,
+        required: [true, "Date of birth is required"],
     },
-    mobileNumber:{
+    mobileNumber: {
         type: Number,
-        required: [true,"Mobile number is required"],
-        unique: [true,"Mobile number already exists"],
+        required: [true, "Mobile number is required"],
+        unique: [true, "Mobile number already exists"],
     },
-    status:{
-        type:Boolean,
-        default:true
+    status: {
+        type: Boolean,
+        default: true
     }
-},
-{
-    timestamps:true,
-    versionKey:false,
-    strict:"throw"
-},[])
+}, {
+    timestamps: true,
+    versionKey: false
+});
 
-const UserModel = model("User",UserSchema);
+const UserModel = model("User", UserSchema);
 export default UserModel;
