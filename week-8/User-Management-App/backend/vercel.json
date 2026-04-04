@@ -1,15 +1,14 @@
 {
-  "version": 2,
-  "functions": {
-    "server.js": {
-      "memory": 1024,
-      "maxDuration": 60
+  "experimentalServices": {
+    "frontend": {
+      "entrypoint": "frontend",
+      "routePrefix": "/",
+      "framework": "vite"
+    },
+    "backend": {
+      "entrypoint": "backend",
+      "routePrefix": "/api",
+      "framework": "nodejs"
     }
-  },
-  "routes": [
-    {
-      "src": "/user-api/(.*)",
-      "dest": "server.js"
-    }
-  ]
+  }
 }
