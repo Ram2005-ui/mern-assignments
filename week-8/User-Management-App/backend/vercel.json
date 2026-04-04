@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm ci",
   "devCommand": "node server.js",
-  "installCommand": "npm ci",
-  "env": ["DB_URL", "PORT", "NODE_ENV", "FRONTEND_URL"]
+  "installCommand": "npm ci"
 }
