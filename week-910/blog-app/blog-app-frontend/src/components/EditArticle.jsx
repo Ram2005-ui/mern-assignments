@@ -5,6 +5,8 @@ import { useAuth } from '../store/authStore'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+
 function EditArticle() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -53,7 +55,7 @@ function EditArticle() {
   const onSave = async (formData) => {
     try {
       await axios.put(
-        'http://localhost:4000/author-api/articles',
+        `${API_BASE_URL}/author-api/articles`,
         {
           articleId: article._id,     // which article to update
           author: currentUser._id,    // checked by checkAuthor middleware

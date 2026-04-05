@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+
 function UserProfile() {
   // Read logout action and navigate from hooks
   const logout = useAuth((state) => state.logout)
@@ -22,7 +24,7 @@ function UserProfile() {
         setLoading(true)
         // USER-protected endpoint: GET /user-api/articles
         // Returns all active articles from all authors
-        const res = await axios.get('http://localhost:4000/user-api/articles', {
+        const res = await axios.get(`${API_BASE_URL}/user-api/articles`, {
           withCredentials: true,
         })
         setArticles(res.data.payload || [])

@@ -4,6 +4,8 @@ import { useAuth } from '../store/authStore'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+
 // Helper: convert UTC date string → IST formatted string
 function toIST(dateStr) {
   if (!dateStr) return 'N/A'
@@ -40,7 +42,7 @@ function ArticleByID() {
         setLoading(true)
         // GET /common-api/articles/:id — public route
         const res = await axios.get(
-          `http://localhost:4000/common-api/articles/${id}`,
+          `${API_BASE_URL}/common-api/articles/${id}`,
           { withCredentials: true }
         )
         setArticle(res.data.payload || null)
@@ -65,7 +67,7 @@ function ArticleByID() {
     try {
       setCommentLoading(true)
       const res = await axios.post(
-        'http://localhost:4000/user-api/articles/comments',
+        `${API_BASE_URL}/user-api/articles/comments`,
         { articleId: article._id, comment: comment.trim() },
         { withCredentials: true }
       )

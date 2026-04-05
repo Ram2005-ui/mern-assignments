@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+
 
 function AuthorProfile() {
   const logout = useAuth((state) => state.logout)
@@ -36,7 +38,7 @@ function AuthorProfile() {
       // AUTHOR-protected: GET /author-api/articles/:authorId
       // Returns ALL articles (active + inactive) — see updated AuthorAPI.js
       const res = await axios.get(
-        `http://localhost:4000/author-api/articles/${currentUser._id}`,
+        `${API_BASE_URL}/author-api/articles/${currentUser._id}`,
         { withCredentials: true }
       )
       setArticles(res.data.payload || [])
@@ -77,7 +79,7 @@ function AuthorProfile() {
   const handleDeleteArticle = async (articleId) => {
     try {
       await axios.patch(
-        `http://localhost:4000/author-api/articles/${articleId}/status`,
+        `${API_BASE_URL}/author-api/articles/${articleId}/status`,
         { isArticleActive: false },
         { withCredentials: true }
       )
@@ -97,7 +99,7 @@ function AuthorProfile() {
   const handleRestoreArticle = async (articleId) => {
     try {
       await axios.patch(
-        `http://localhost:4000/author-api/articles/${articleId}/status`,
+        `${API_BASE_URL}/author-api/articles/${articleId}/status`,
         { isArticleActive: true },
         { withCredentials: true }
       )

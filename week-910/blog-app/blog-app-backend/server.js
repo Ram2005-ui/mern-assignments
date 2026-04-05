@@ -16,10 +16,32 @@ app.use(exp.json())  //json function on exp function?
 app.use(exp.urlencoded({extended: true})) // Parse form data from multipart/form-data
 app.use(cookieParser())
 //app.use(middleware) //it will execute before route because application level middleware
-app.use('/user-api', userRoute)
-app.use('/author-api', authorRoute)
-app.use('/admin-api', adminRoute)
-app.use('/common-api', commonRouter)
+app.use(['/user-api', '/api/user-api'], userRoute)
+app.use(['/author-api', '/api/author-api'], authorRoute)
+app.use(['/admin-api', '/api/admin-api'], adminRoute)
+app.use(['/common-api', '/api/common-api'], commonRouter)
+
+app.get(["/", "/api"], (req, res) => {
+    res.json({
+        message: "Blog app backend is running. Use /common-api, /user-api, /author-api, or /admin-api."
+    })
+})
+
+//logout for user,author and admin
+app.post(["/logout", "/api/logout"], (req, res) => { //match with the setting at the time of creation
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: false
+    });
+    res.status(200).json({ message: "Logged out successfully" })
+})
+
+//dealing with invalid path
+app.use((req, res, next) => {
+    res.status(404).json({ message: `${req.url} is invalid path` })   //path is present in the url object
+})
+
 //connect to db
 const connectDB = async () => { //for multemedia storage like cloudinary and mongodb atlas as cloud service
     try {
@@ -42,20 +64,7 @@ export default app;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(process.env.PORT, () => console.log("server started on port", process.env.PORT));
 }
-//logout for user,author and admin
-app.post("/logout", (req, res) => { //match with the setting at the time of creation
-    res.clearCookie("token", {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: false
-    });
-    res.status(200).json({ message: "Logged out successfully" })
-})
 
-//dealing with invalid path
-app.use((req, res, next) => {
-    res.json({ message: `${req.url} is invalid path` })   //path is present in the url object
-})
 //error handling middleware
 // app.use((err, req, res, next) => {
 //     console.log(err)

@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import axios from 'axios'
 import { useAuth } from '../store/authStore'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+
 function Register() {
   const {
     register,
@@ -54,7 +56,7 @@ function Register() {
         }
         
         // Don't set Content-Type header - let axios handle it with proper boundary
-        let resObj=await axios.post("http://localhost:4000/user-api/users", formData);
+        let resObj=await axios.post(`${API_BASE_URL}/user-api/users`, formData);
         console.log("Response:", resObj);
         console.log("Response Status:", resObj.status);
         if (resObj.status === 201) {
@@ -83,7 +85,7 @@ function Register() {
         }
         
         // Don't set Content-Type header - let axios handle it with proper boundary
-        let resObj=await axios.post("http://localhost:4000/author-api/users", formData);
+        let resObj=await axios.post(`${API_BASE_URL}/author-api/users`, formData);
         console.log("Response:", resObj);
         console.log("Response Status:", resObj.status);
         if (resObj.status === 201) {

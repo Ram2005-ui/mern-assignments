@@ -5,6 +5,8 @@ import { useAuth } from '../store/authStore'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000'
+
 function AddArticle() {
   const currentUser = useAuth((state) => state.currentUser)
   const navigate = useNavigate()
@@ -20,7 +22,7 @@ function AddArticle() {
   const onAddArticle = async (formData) => {
     try {
       await axios.post(
-        'http://localhost:4000/author-api/articles',
+        `${API_BASE_URL}/author-api/articles`,
         {
           title: formData.title,
           category: formData.category,
