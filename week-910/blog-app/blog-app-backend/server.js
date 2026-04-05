@@ -43,10 +43,10 @@ app.get(["/", "/api"], (req, res) => {
 //logout for user,author and admin
 app.post(["/logout", "/api/logout"], (req, res) => { //match with the setting at the time of creation
     res.clearCookie("token", {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: false
-    });
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
+})
     res.status(200).json({ message: "Logged out successfully" })
 })
 
