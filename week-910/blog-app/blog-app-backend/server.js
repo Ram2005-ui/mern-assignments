@@ -10,7 +10,10 @@ import cors from 'cors'
 config() //process.env
 const app = exp();
 //use cors middleware
-app.use(cors({origin: true, credentials:true})) // allow all origins (useful for development)
+app.use(cors({
+  origin: 'https://mern-assignments-fr.vercel.app/',
+  credentials: true
+})) // allow all origins (useful for development)
 //add body parser middleware
 app.use(exp.json())  //json function on exp function?
 app.use(exp.urlencoded({extended: true})) // Parse form data from multipart/form-data

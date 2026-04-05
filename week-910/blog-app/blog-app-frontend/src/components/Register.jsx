@@ -15,6 +15,7 @@ function Register() {
   } = useForm();
 
   let [loading, setLoading] = useState(false);
+  // ✅ FIX: error state is always a string (or null), never an object
   let [error, setError] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -23,6 +24,7 @@ function Register() {
 
   const onRegister = async (newUser) => {
     setLoading(true);
+    setError(null); // ✅ clear previous errors on each submit
     // Create form data object
     const formData = new FormData();
     //get user object
@@ -38,96 +40,67 @@ function Register() {
     console.log(role)
     
     // add profileImageUrl to FormData object (if file was selected)
-    // Note: Both UserAPI and AuthorAPI expect "profileImageUrl"
     if (profileImageUrl && profileImageUrl[0]) {
       formData.append("profileImageUrl", profileImageUrl[0]);
     }
 
     try {
-      if(role=="USER"){
-        // Log FormData for debugging
-        console.log("Sending FormData to /user-api/users");
-        for (let [key, value] of formData.entries()) {
-          if (value instanceof File) {
-            console.log(`${key}: File - ${value.name}`);
-          } else {
-            console.log(`${key}: ${value}`);
-          }
-        }
-        
-        // Don't set Content-Type header - let axios handle it with proper boundary
-        let resObj=await axios.post(`${API_BASE_URL}/user-api/users`, formData);
-        console.log("Response:", resObj);
-        console.log("Response Status:", resObj.status);
-        if (resObj.status === 201) {
-          console.log("✅ USER Registration successful - about to clear auth state");
-          // Clear any existing auth state so user must log in
-          await logout();
-          console.log("✅ Auth state cleared");
-          toast.success("Registration successful. Please login.");
-          console.log("✅ Toast shown - navigating to /login");
-          navigate("/login");
-          console.log("✅ Navigate called");
-          return;
+      const endpoint = role === "USER"
+        ? `${API_BASE_URL}/user-api/users`
+        : `${API_BASE_URL}/author-api/users`;
+
+      console.log(`Sending FormData to ${endpoint}`);
+      for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}: File - ${value.name}`);
         } else {
-          throw new Error("Registration failed. Please try again.");
+          console.log(`${key}: ${value}`);
         }
       }
-      else if(role=="AUTHOR"){
-        // Log FormData for debugging
-        console.log("Sending FormData to /author-api/users");
-        for (let [key, value] of formData.entries()) {
-          if (value instanceof File) {
-            console.log(`${key}: File - ${value.name}`);
-          } else {
-            console.log(`${key}: ${value}`);
-          }
-        }
-        
-        // Don't set Content-Type header - let axios handle it with proper boundary
-        let resObj=await axios.post(`${API_BASE_URL}/author-api/users`, formData);
-        console.log("Response:", resObj);
-        console.log("Response Status:", resObj.status);
-        if (resObj.status === 201) {
-          console.log("✅ AUTHOR Registration successful - about to clear auth state");
-          // Clear any existing auth state so user must log in
-          await logout();
-          console.log("✅ Auth state cleared");
-          toast.success("Registration successful. Please login.");
-          console.log("✅ Toast shown - navigating to /login");
-          navigate("/login");
-          console.log("✅ Navigate called");
-          return;
-        } else {
-          throw new Error("Registration failed. Please try again.");
-        }
+
+      let resObj = await axios.post(endpoint, formData);
+      console.log("Response:", resObj);
+
+      if (resObj.status === 201) {
+        await logout();
+        toast.success("Registration successful. Please login.");
+        navigate("/login");
+      } else {
+        throw new Error("Registration failed. Please try again.");
       }
     } catch (err) {
       console.error("Registration error:", err);
       console.error("Error response data:", err.response?.data);
       console.error("Error response status:", err.response?.status);
-      const errorMessage = err.response?.data?.error || err.response?.data?.message || err.message || "Registration failed";
-      setError({message: errorMessage});
+      // ✅ FIX: always set error as a plain string
+      const errorMessage =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        err.message ||
+        "Registration failed";
+      setError(errorMessage);
       toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-  //cleanup(remove preview image from browser memory)
+
+  // cleanup: remove preview image from browser memory
   useEffect(() => {
-        return () => {
-            if (preview) {
-                URL.revokeObjectURL(preview);
-            }
-        };
-        }, [preview]);
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   if (loading) {
     return <p className="text-center text-orange-400 text-3xl mt-20">Loading...</p>;
   }
 
+  // ✅ FIX: render error as a string, not an object
   if (error) {
-    return <p className="text-center text-red-400 text-3xl mt-20">{error.message}</p>;
+    return <p className="text-center text-red-400 text-3xl mt-20">{error}</p>;
   }
 
   return (
@@ -184,7 +157,6 @@ function Register() {
               )}
             </div>
             <div className="flex-1">
-              {/* lastName is optional in UserModel */}
               <input
                 type="text"
                 {...register("lastName", {
@@ -235,43 +207,40 @@ function Register() {
             )}
           </div>
 
-          {/* Profile Image (optional - stored as URL in model) */}
+          {/* Profile Image (optional) */}
           <div className="mt-4">
             <input
-        type="file"
-        accept="image/png, image/jpeg"
-        {...register("profileImageUrl")}
-        onChange={(e) => {
-
-            //get image file
-            const file = e.target.files[0];
-            // validation for image format
-            if (file) {
-                if (!["image/jpeg", "image/png"].includes(file.type)) {
-                setError("Only JPG or PNG allowed");
-                return;
+              type="file"
+              accept="image/png, image/jpeg"
+              {...register("profileImageUrl")}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  if (!["image/jpeg", "image/png"].includes(file.type)) {
+                    // ✅ FIX: setError with a plain string
+                    setError("Only JPG or PNG allowed");
+                    return;
+                  }
+                  if (file.size > 2 * 1024 * 1024) {
+                    // ✅ FIX: setError with a plain string
+                    setError("File size must be less than 2MB");
+                    return;
+                  }
+                  const previewUrl = URL.createObjectURL(file);
+                  setPreview(previewUrl);
+                  setError(null);
                 }
-                //validation for file size
-                if (file.size > 2 * 1024 * 1024) {
-                setError("File size must be less than 2MB");
-                return;
-                }
-                //Converts file → temporary browser URL(create preview URL)
-                const previewUrl = URL.createObjectURL(file);
-                setPreview(previewUrl);
-                setError(null);
-            }
-
-        }} />
+              }}
+            />
 
             {preview && (
-                <div className="mt-3 flex justify-center">
+              <div className="mt-3 flex justify-center">
                 <img
-                    src={preview}
-                    alt="Preview"
-                    className="w-24 h-24 object-cover rounded-full border"
+                  src={preview}
+                  alt="Preview"
+                  className="w-24 h-24 object-cover rounded-full border"
                 />
-                </div>
+              </div>
             )}
           </div>
 
