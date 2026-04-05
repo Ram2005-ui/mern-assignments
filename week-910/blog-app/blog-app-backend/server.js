@@ -12,9 +12,12 @@ const app = exp();
 //use cors middleware
 app.use(cors({
   origin: function(origin, callback) {
-    // allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) return callback(null, true)
-    if (origin.endsWith('.vercel.app') || origin === 'http://localhost:5173') {
+    if (
+      origin.endsWith('.vercel.app') || 
+      origin.endsWith('.netlify.app') ||
+      origin === 'http://localhost:5173'
+    ) {
       return callback(null, true)
     }
     callback(new Error('Not allowed by CORS'))
