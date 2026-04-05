@@ -11,9 +11,16 @@ config() //process.env
 const app = exp();
 //use cors middleware
 app.use(cors({
-  origin: 'https://mern-assignments-fr.vercel.app/',
+  origin: function(origin, callback) {
+    // allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true)
+    if (origin.endsWith('.vercel.app') || origin === 'http://localhost:5173') {
+      return callback(null, true)
+    }
+    callback(new Error('Not allowed by CORS'))
+  },
   credentials: true
-})) // allow all origins (useful for development)
+}))// allow all origins (useful for development)
 //add body parser middleware
 app.use(exp.json())  //json function on exp function?
 app.use(exp.urlencoded({extended: true})) // Parse form data from multipart/form-data
