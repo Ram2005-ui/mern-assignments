@@ -106,7 +106,7 @@ userRoute.put("/articles",verifyToken("USER"),async(req,res)=>{ //role should be
         return res.status(403).json({message:"Unauthorized access"});
 
     }
-    let articleWithComment=await ArticleModel.findByIdAndUpdate(articleId,{$push:{comments:{user,comment}}},{new:true,runValidators:true},populate("comments.user","firstName"));
+    let articleWithComment=await ArticleModel.findByIdAndUpdate(articleId,{$push:{comments:{user,comment}}},{new:true,runValidators:true}).populate("comments.user","firstName");
     if(!articleWithComment){
         return res.status(404).json({message:"Article not found"});
     }

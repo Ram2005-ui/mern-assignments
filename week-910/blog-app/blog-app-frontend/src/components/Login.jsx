@@ -12,16 +12,17 @@ function Login() {
   const login=useAuth((state)=>state.login);
   const isAuthenticated=useAuth((state)=>state.isAuthenticated);
   const currentUser=useAuth((state)=>state.currentUser);
-  let navigate = useNavigate();
-
-
-  const loading=useAuth((state)=>state.loading);
+  const navigate = useNavigate();
+  const [localLoading,setLocalLoading]=useState(false);
   const error=useAuth((state)=>state.error);
+  const clearError=useAuth((state)=>state.clearError);
 
   
 
   const onUserLogin = async (userCredObj) => {
+    setLocalLoading(true);
     await login(userCredObj)
+    setLocalLoading(false);
     // setLoading(true);
     // try {
     //   let res = await fetch("http://localhost:4000/user-api/users/login", {
@@ -41,6 +42,9 @@ function Login() {
     //   setLoading(false);
     // }
   };
+  useEffect(() => {
+    clearError()
+  }, [])
   useEffect(()=>{
     if(isAuthenticated && currentUser){  // ✅ Add null check
       if(currentUser.role==="USER"){
@@ -52,18 +56,21 @@ function Login() {
     }
   },[isAuthenticated,currentUser,navigate])  // Add navigate to dependencies
 
-  if (loading) {
+  if (localLoading) {
     return <p className="text-center text-orange-400 text-3xl mt-20">Loading...</p>;
   }
 
-  if (error) {
-    return <p className="text-center text-red-400 text-3xl mt-20">{error}</p>;
-  }
-
-  return (
+    return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md mx-4">
         <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">Login</h1>
+
+        {/* ✅ Show error as inline message, not a page replacement */}
+        {error && (
+          <p className="text-red-400 text-sm text-center mb-4 bg-red-50 py-2 rounded-lg">
+            {error}
+          </p>
+        )}
 
         <form onSubmit={handleSubmit(onUserLogin)}>
 

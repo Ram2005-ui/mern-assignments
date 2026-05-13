@@ -69,6 +69,8 @@ export const useAuth = create(
           })
         }
       },
+      // authStore.js — add inside the store
+      clearError: () => set({ error: null }),
       checkAuth: async () => {
         try {
           set({ loading: true, error: null })
@@ -109,7 +111,6 @@ export const useAuth = create(
         // Only persist these fields; exclude loading/error and functions
         currentUser: state.currentUser,
         isAuthenticated: state.isAuthenticated,
-        hasCheckedAuth:state.hasCheckedAuth
       }),
     }
   )

@@ -2,9 +2,12 @@ import { useAuth } from "../store/authStore";
 import { Navigate } from "react-router";
 import toast from "react-hot-toast";
 
-function ProtectedRoute({ children, allowedRoles }) {
+function ProtectedRoute({ children, allowedRole }) {
   //get user login status from store
-  const { loading, currentUser, isAuthenticated, hasCheckedAuth } = useAuth();
+  const loading = useAuth((state) => state.loading)
+  const currentUser = useAuth((state) => state.currentUser)
+  const isAuthenticated = useAuth((state) => state.isAuthenticated)
+  const hasCheckedAuth = useAuth((state) => state.hasCheckedAuth)
   //loading state
   if (loading || !hasCheckedAuth) {
     return (
@@ -23,7 +26,7 @@ function ProtectedRoute({ children, allowedRoles }) {
   // console.log("aloowed role", allowedRoles);
   // console.log(allowedRoles.includes(currentUser?.role));
   //check roles
-  if (allowedRoles && currentUser.role!==allowedRoles) {
+  if (allowedRole && currentUser.role!==allowedRole) {
     toast.error("You are not authorized to access this page");
     if (currentUser.role === 'USER') return <Navigate to="/user-profile" replace />
     if (currentUser.role === 'AUTHOR') return <Navigate to="/author-profile" replace />

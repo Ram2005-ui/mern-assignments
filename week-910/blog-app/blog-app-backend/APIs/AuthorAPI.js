@@ -154,7 +154,7 @@ authorRoute.patch("/articles/:id/status", verifyToken("AUTHOR"), async (req, res
 
   //send res
   res.status(200).json({
-    message: 'Article ${isArticleActive ? "restored" : "deleted"} successfully',
+    message: `Article ${isArticleActive ? "restored" : "deleted"} successfully`,
     article,
   });
 });

@@ -10,26 +10,18 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000
 function AuthorProfile() {
   const logout = useAuth((state) => state.logout)
   const currentUser = useAuth((state) => state.currentUser) // logged-in author
+  const hasCheckedAuth = useAuth((state) => state.hasCheckedAuth)
   const navigate = useNavigate()
 
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  if (!currentUser?._id) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <p className="text-xl text-gray-400 animate-pulse">Loading profile...</p>
-      </div>
-    )
-  }
-
-  // Fetch ALL articles belonging to this author (active + soft-deleted)
-  // Active articles: isArticleActive === true  → can Read, Edit, Delete
-  // Deleted articles: isArticleActive === false → can Restore
   const fetchArticles = async () => {
-    if (!currentUser?._id){
+    const authorId = currentUser?._id || currentUser?.userId
+    if (!authorId) {
       setArticles([])
+      setLoading(false)
       return
     }
     try {
@@ -38,7 +30,7 @@ function AuthorProfile() {
       // AUTHOR-protected: GET /author-api/articles/:authorId
       // Returns ALL articles (active + inactive) — see updated AuthorAPI.js
       const res = await axios.get(
-        `${API_BASE_URL}/author-api/articles/${currentUser._id}`,
+        `${API_BASE_URL}/author-api/articles/${authorId}`,
         { withCredentials: true }
       )
       setArticles(res.data.payload || [])
@@ -51,8 +43,30 @@ function AuthorProfile() {
   }
 
   useEffect(() => {
+    if (!hasCheckedAuth) return
     fetchArticles()
-  }, [currentUser?._id])
+  }, [currentUser?._id,hasCheckedAuth])
+
+   if (!hasCheckedAuth || loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <p className="text-xl text-gray-400 animate-pulse">Loading profile...</p>
+      </div>
+    )
+  }
+
+  if (!currentUser?._id && !currentUser?.userId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <p className="text-xl text-gray-400 animate-pulse">No user found.Please Login again.</p>
+      </div>
+    )
+  }
+
+  // Fetch ALL articles belonging to this author (active + soft-deleted)
+  // Active articles: isArticleActive === true  → can Read, Edit, Delete
+  // Deleted articles: isArticleActive === false → can Restore
+  
 
   // Logout and redirect to login
   const onLogout = async () => {
@@ -77,6 +91,9 @@ function AuthorProfile() {
 
   // Soft-delete an article: PATCH /author-api/articles/:id/status  { isArticleActive: false }
   const handleDeleteArticle = async (articleId) => {
+    if (!window.confirm('Are you sure you want to delete this article?')) {
+      return
+    }
     try {
       await axios.patch(
         `${API_BASE_URL}/author-api/articles/${articleId}/status`,
@@ -84,7 +101,7 @@ function AuthorProfile() {
         { withCredentials: true }
       )
       // ask for confirmation
-      alert('Are you sure you want to delete this article?')
+      
       toast.success('Article deleted')
       // Update local state immediately (no full re-fetch needed)
       setArticles((prev) =>
@@ -97,13 +114,16 @@ function AuthorProfile() {
 
   // Restore a soft-deleted article: PATCH /author-api/articles/:id/status  { isArticleActive: true }
   const handleRestoreArticle = async (articleId) => {
+    if (!window.confirm('Are you sure you want to restore this article?')) {
+      return
+    }
     try {
       await axios.patch(
         `${API_BASE_URL}/author-api/articles/${articleId}/status`,
         { isArticleActive: true },
         { withCredentials: true }
       )
-      alert('Are you sure you want to restore this article?')
+      
       toast.success('Article restored')
       setArticles((prev) =>
         prev.map((a) => (a._id === articleId ? { ...a, isArticleActive: true } : a))

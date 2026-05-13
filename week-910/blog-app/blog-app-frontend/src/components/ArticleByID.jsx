@@ -21,6 +21,7 @@ function ArticleByID() {
   const { id } = useParams()
   const navigate = useNavigate()
   const currentUser = useAuth((state) => state.currentUser)
+  
 
   // Step 1: Check if article was passed via navigate state (useLocation)
   // This avoids an unnecessary API call when user clicks "Read" from the list

@@ -11,19 +11,19 @@ config() //process.env
 const app = exp();
 //use cors middleware
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true)
-    if (
-      origin.endsWith('.vercel.app') || 
-      origin.endsWith('.netlify.app') ||
-      origin === 'http://localhost:5173'
-    ) {
-      return callback(null, true)
+  origin: function (origin, callback) {
+    if (!origin || 
+        origin.endsWith('.vercel.app') || 
+        origin.endsWith('.netlify.app') || 
+        origin === 'http://localhost:5175' ||
+        origin === 'http://localhost:5174' ||
+        origin === 'http://localhost:5173'){
+      return callback(null, true);
     }
-    callback(new Error('Not allowed by CORS'))
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true
-}))// allow all origins (useful for development)
+}));// allow all origins (useful for development)
 //add body parser middleware
 app.use(exp.json())  //json function on exp function?
 app.use(exp.urlencoded({extended: true})) // Parse form data from multipart/form-data
@@ -119,8 +119,8 @@ app.use((err, req, res, next) => {
     });
   }
 
-  const errCode = err.code ?? err.cause?.code ?? err.errorResponse?.code;
-  const keyValue = err.keyValue ?? err.cause?.keyValue ?? err.errorResponse?.keyValue;
+  const errCode = err.code || err.cause?.code || err.errorResponse?.code;
+  const keyValue = err.keyValue || err.cause?.keyValue || err.errorResponse?.keyValue;
 
   if (errCode === 11000 && keyValue) {
     const field = Object.keys(keyValue)[0];

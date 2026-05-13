@@ -68,7 +68,7 @@ commonRouter.get("/check-auth", async (req, res) => {
 
 //password update
 //check previous password
-commonRouter.put("/change-password",verifyToken,async(req,res)=>{
+commonRouter.put("/change-password",verifyToken("USER","AUTHOR"),async(req,res)=>{
     //get current password and new password
     //check current password
     //update password

@@ -10,6 +10,7 @@ function UserProfile() {
   // Read logout action and navigate from hooks
   const logout = useAuth((state) => state.logout)
   const currentUser = useAuth((state) => state.currentUser)
+  const hasCheckedAuth = useAuth((state) => state.hasCheckedAuth)
   const navigate = useNavigate()
 
   // Local state for articles, loading flag, and error message
@@ -19,6 +20,7 @@ function UserProfile() {
 
   // Fetch all articles from all authors on component mount
   useEffect(() => {
+    if(!hasCheckedAuth) return; // wait until auth check is done to avoid flash of content
     const fetchArticles = async () => {
       try {
         setLoading(true)
@@ -36,7 +38,7 @@ function UserProfile() {
       }
     }
     fetchArticles()
-  }, [])
+  }, [hasCheckedAuth])
 
   // Handle logout: clear auth state and redirect to login
   const onLogout = async () => {
