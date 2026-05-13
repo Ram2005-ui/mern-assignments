@@ -14,21 +14,21 @@ commonRouter.post("/authenticate",async(req,res)=>{
         //call authenticate function
         let {token,user}=await authenticate(credObj);
         //save token
-        res.cookie("token",token,{
-            httpOnly:true,
-            sameSite:"lax",
-            secure:false,
-        });
+        res.cookie("token", token, {
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
+})
         //send response
         res.status(200).json({message:"Author authenticated successfully",payload:user});
 })
 
 commonRouter.get("/logout",async(req,res)=>{
-    res.clearCookie("token",{
-        httpOnly:true,
-        sameSite:"lax",
-        secure:false
-    });
+    res.clearCookie("token", {
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
+})
     res.status(200).json({message:"Logged out successfully"})
 })
 
