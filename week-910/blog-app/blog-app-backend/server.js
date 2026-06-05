@@ -81,9 +81,10 @@ connectDB().catch(err => {
 // For Vercel serverless, export the app
 export default app;
 
-// For local development, listen if not in Vercel
-if (process.env.NODE_ENV !== 'production') {
-    app.listen(process.env.PORT, () => console.log("server started on port", process.env.PORT));
+// Listen on the port (Render needs this, Vercel doesn't)
+if (!process.env.VERCEL) {
+    const port = process.env.PORT || 10000;
+    app.listen(port, () => console.log("server started on port", port));
 }
 
 //error handling middleware
