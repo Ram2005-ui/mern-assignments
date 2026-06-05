@@ -7,7 +7,7 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 import {upload} from '../config/multer.js'
 import {uploadToCloudinary} from '../config/cloudinaryupload.js'
 import cloudinary from '../config/cloudinary.js'
-export const authorRoute=exp.Router()
+export  const authorRoute=exp.Router()
 
 
 //Register author(public)

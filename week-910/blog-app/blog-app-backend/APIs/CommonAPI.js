@@ -14,10 +14,11 @@ commonRouter.post("/authenticate",async(req,res)=>{
         //call authenticate function
         let {token,user}=await authenticate(credObj);
         //save token
-        res.cookie("token", token, {
+       const isProduction = process.env.NODE_ENV === 'production'
+res.cookie("token", token, {
   httpOnly: true,
-  sameSite: "none",
-  secure: true,
+  sameSite: isProduction ? "none" : "lax",
+  secure: isProduction,
 })
         //send response
         res.status(200).json({message:"Author authenticated successfully",payload:user});

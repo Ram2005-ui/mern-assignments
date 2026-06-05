@@ -10,6 +10,7 @@ import cors from 'cors'
 config() //process.env
 const app = exp();
 //use cors middleware
+// AFTER
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || 
@@ -22,8 +23,15 @@ app.use(cors({
     }
     callback(new Error('Not allowed by CORS'));
   },
-  credentials: true
-}));// allow all origins (useful for development)
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,      // ← add
+  optionsSuccessStatus: 204      // ← add
+}));
+
+// Handle preflight explicitly for all routes
+   // ← add this line, before your routes// allow all origins (useful for development)
 //add body parser middleware
 app.use(exp.json())  //json function on exp function?
 app.use(exp.urlencoded({extended: true})) // Parse form data from multipart/form-data

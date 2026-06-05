@@ -17,6 +17,8 @@ export const useAuth = create(
       // On success: stores user object and sets isAuthenticated = true
       login: async (userCredWithRole) => {
         const { role, ...userCredObj } = userCredWithRole // strip role if present
+        console.log("LOGIN called with:", userCredObj)          // ← add
+  console.log("Hitting URL:", `${API_BASE_URL}/common-api/authenticate`) 
         try {
           set({ loading: true, error: null })
           let res = await axios.post(
@@ -24,6 +26,7 @@ export const useAuth = create(
             userCredObj,
             { withCredentials: true }
           )
+          console.log("LOGIN success:", res.data)
           // Store the logged-in user and mark as authenticated
           set({
             loading: false,
@@ -32,12 +35,14 @@ export const useAuth = create(
             hasCheckedAuth:true
           })
         } catch (err) {
+          console.log("LOGIN error:", err)                      // ← add
+    console.log("LOGIN error response:", err.response)
           set({
             loading: false,
             isAuthenticated: false,
             currentUser: null,
             hasCheckedAuth:true,
-            error: err.response?.data?.error || 'Login Failed',
+            error: err.response?.data?.error || err.response?.data?.message || 'Login Failed',
           })
         }
       },
@@ -65,7 +70,7 @@ export const useAuth = create(
             isAuthenticated: false,
             currentUser: null,
             hasCheckedAuth:true,
-            error: err.response?.data?.error || 'Logout Failed',
+            error: err.response?.data?.error || err.response?.data?.message || 'Logout Failed',
           })
         }
       },
@@ -98,7 +103,7 @@ export const useAuth = create(
             isAuthenticated: false,
             currentUser: null,
             hasCheckedAuth: true,
-            error: err.response?.data?.message || 'Check auth failed',
+            error: err.response?.data?.error || err.response?.data?.message || 'Check auth failed',
           })
         }
       },

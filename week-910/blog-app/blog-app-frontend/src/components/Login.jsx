@@ -12,6 +12,7 @@ function Login() {
   const login=useAuth((state)=>state.login);
   const isAuthenticated=useAuth((state)=>state.isAuthenticated);
   const currentUser=useAuth((state)=>state.currentUser);
+  const hasCheckedAuth=useAuth((state)=>state.hasCheckedAuth);
   const navigate = useNavigate();
   const [localLoading,setLocalLoading]=useState(false);
   const error=useAuth((state)=>state.error);
@@ -20,6 +21,7 @@ function Login() {
   
 
   const onUserLogin = async (userCredObj) => {
+    console.log("Login form submitted with:", userCredObj)
     setLocalLoading(true);
     await login(userCredObj)
     setLocalLoading(false);
@@ -43,9 +45,10 @@ function Login() {
     // }
   };
   useEffect(() => {
-    clearError()
+    return()=>clearError()
   }, [])
   useEffect(()=>{
+    if(!hasCheckedAuth) return; // Don't redirect until we've checked auth status
     if(isAuthenticated && currentUser){  // ✅ Add null check
       if(currentUser.role==="USER"){
         navigate("/user-profile");
@@ -54,7 +57,7 @@ function Login() {
         navigate("/author-profile");
       }
     }
-  },[isAuthenticated,currentUser,navigate])  // Add navigate to dependencies
+  },[isAuthenticated,currentUser,navigate,hasCheckedAuth])  // Add navigate to dependencies
 
   if (localLoading) {
     return <p className="text-center text-orange-400 text-3xl mt-20">Loading...</p>;

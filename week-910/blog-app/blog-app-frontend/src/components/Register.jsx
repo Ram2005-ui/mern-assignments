@@ -61,11 +61,11 @@ function Register() {
       let resObj = await axios.post(endpoint, formData);
       console.log("Response:", resObj);
 
-      if (resObj.status === 201) {
-        await logout();
-        toast.success("Registration successful. Please login.");
-        navigate("/login");
-      } else {
+      if (resObj.status === 200 || resObj.status === 201) {
+  await logout()
+  toast.success("Registration successful. Please login.")
+  navigate("/login")
+} else {
         throw new Error("Registration failed. Please try again.");
       }
     } catch (err) {
